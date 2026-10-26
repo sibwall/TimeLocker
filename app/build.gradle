@@ -1,0 +1,31 @@
+plugins {
+id 'com.android.application'
+}
+
+android {
+namespace "time.locker"
+compileSdk 35
+
+lint {
+        checkReleaseBuilds false
+    }
+
+defaultConfig {  
+    applicationId "time.locker"  
+    minSdk 30
+    targetSdk 37
+    versionCode 1
+    versionName "1.0"  
+}  
+
+buildTypes {  
+    release {  
+        minifyEnabled false  
+        shrinkResources false  
+         }  
+}
+
+}
+
+dependencies {
+}
