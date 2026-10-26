@@ -99,7 +99,9 @@ public class WelcomeActivity extends Activity {
 
         workProfileButton.setOnClickListener(v -> {
 
-            if (getSharedPreferences("prefs", Context.MODE_PRIVATE).getBoolean("work", false)) {
+            LauncherApps launcherApps = (LauncherApps) getSystemService(LAUNCHER_APPS_SERVICE);
+            
+            if (launcherApps.getProfiles().size() > 1 || getSharedPreferences("prefs", Context.MODE_PRIVATE).getBoolean("work", false)) {
                 Toast.makeText(
                         WelcomeActivity.this,
                         language.equals("ru")
