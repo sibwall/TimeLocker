@@ -32,7 +32,6 @@ xmlns:tools="http://schemas.android.com/tools">
 		<activity android:name=".WelcomeActivity"
             android:exported="true"    
 			android:enabled="true"
-            android:process=":act"            
             android:screenOrientation="portrait"
             android:excludeFromRecents="true">	
 		<intent-filter>
@@ -54,7 +53,8 @@ xmlns:tools="http://schemas.android.com/tools">
                 android:resource="@xml/device_admin" />
             <intent-filter>
                 <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
-                <action android:name="android.app.action.DEVICE_ADMIN_DISABLED" />		
+                <action android:name="android.app.action.DEVICE_ADMIN_DISABLED" />	
+				<action android:name="android.app.action.PROFILE_PROVISIONING_COMPLETE" />
             </intent-filter>
 			<intent-filter>
 				<action android:name="android.intent.action.BOOT_COMPLETED"/>
