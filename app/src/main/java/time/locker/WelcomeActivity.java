@@ -23,12 +23,23 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.util.List;
-import java.util.Locale;
+import android.app.NotificationManager;
+import android.provider.Settings;
 
 public class WelcomeActivity extends Activity {
 
     private DevicePolicyManager devicePolicyManager;
     private ComponentName adminComponent;
+   
+    @Override
+    protected void onResume() {
+        super.onResume();
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);				
+        if (!notificationManager.isNotificationPolicyAccessGranted()) {
+            startActivity(new Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS));
+            Toast.makeText(this, java.util.Locale.getDefault().getLanguage().equals("ru") ? "Дайте разрешение" : "Please give permission", Toast.LENGTH_SHORT).show();
+        }
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -58,12 +69,12 @@ public class WelcomeActivity extends Activity {
         description.setTextSize(16f);
         description.setTextColor(Color.WHITE);
 
-        String language = Locale.getDefault().getLanguage();
+        String language = java.util.Locale.getDefault().getLanguage();
 
         if (language.equals("ru")) {
-            description.setText("Это приложение для блокировки телефона в ночное время с 10 вечера до 8 утра. Оно не будет давать вам включить экран в это время и обойти или отключить это будет почти невозможно. Включите администратора, а также рабочий профиль для надёжной работы.");
+            description.setText("Это приложение для блокировки телефона в ночное время с 10 вечера до 8 утра. Оно не будет давать вам разблокировать экран в это время и обойти или отключить это будет почти невозможно. Также оно будет блокировать звуки уведомлений. Включите администратора, а также рабочий профиль для надёжной работы.");
         } else {
-            description.setText("This is an application for locking the phone at night from 10 PM to 8 AM. It will not let you turn on screen during this time, and bypass or disable this will be almost impossible. Enable the administrator and work profile for resilient operation.");
+            description.setText("This is an application for locking the phone at night from 10 PM to 8 AM. It will not let you unlock screen during this time, and bypass or disable this will be almost impossible. Also, it will block notification sounds. Enable the administrator and work profile for resilient operation.");
         }
 
         LinearLayout.LayoutParams textParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
