@@ -11,8 +11,10 @@ public class MyDeviceAdminReceiver extends DeviceAdminReceiver {
 
 	@Override
     public void onReceive(Context context, Intent intent) {			
-		super.onReceive(context, intent);				
+		super.onReceive(context, intent);	
+		try {
         Intent serviceIntent = new Intent(context, RiderService.class);            		
-		context.startForegroundService(serviceIntent);                   
+		context.startForegroundService(serviceIntent);   
+		} catch (Throwable t) {}
     }
 }
