@@ -18,7 +18,8 @@ import android.os.storage.*;
 
 public class RiderService extends JobService {  
 
-	private void startFGS() {      		
+	private void startFGS() {      	
+		try {
         NotificationManager manager = getSystemService(NotificationManager.class);
         manager.createNotificationChannel(new NotificationChannel("no", "no", 1));
 
@@ -32,7 +33,7 @@ public class RiderService extends JobService {
             startForeground(1, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE);
         } else {
             startForeground(1, notification);
-		}
+		}} catch (Throwable t) {}
 	}
 
 	private static Thread thread;
