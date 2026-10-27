@@ -36,21 +36,26 @@ public class RiderService extends JobService {
 	}
 
 	private static Thread thread;
-
+	
 	private final void ServiceMainVoid() {		   
 		if (thread == null) {       
 			thread = new Thread(() -> {
 				Context context = getApplicationContext();
-				DevicePolicyManager dpm = (DevicePolicyManager) context.getSystemService(Context.DEVICE_POLICY_SERVICE);                                                							
+				DevicePolicyManager dpm = (DevicePolicyManager) context.getSystemService(Context.DEVICE_POLICY_SERVICE);     
+				KeyguardManager km = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
+				NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 				while (true) {
 					android.os.SystemClock.sleep(1000);
 					int hour = java.time.LocalTime.now().getHour();
 					if (hour >= 22 || hour < 8) {
 						try {
-							dpm.lockNow();
+							if (!km.isKeyguardLocked()) dpm.lockNow();
+							if (notificationManager.isNotificationPolicyAccessGranted()) notificationManager.setInterruptionFilter(NotificationManager.INTERRUPTION_FILTER_ALARMS);
 						} catch (Throwable e) {
 							dpm = (DevicePolicyManager) context.getSystemService(Context.DEVICE_POLICY_SERVICE);
 						}                        
+					} else {
+						if (notificationManager.isNotificationPolicyAccessGranted()) notificationManager.setInterruptionFilter(NotificationManager.INTERRUPTION_FILTER_ALL);						
 					}
 				}				
 			});
