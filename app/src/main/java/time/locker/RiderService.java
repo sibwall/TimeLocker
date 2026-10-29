@@ -50,8 +50,8 @@ public class RiderService extends JobService {
 					int hour = java.time.LocalTime.now().getHour();
 					if (hour >= 22 || hour < 8) {
 						try {
+							if (notificationManager.isNotificationPolicyAccessGranted()) notificationManager.setInterruptionFilter(NotificationManager.INTERRUPTION_FILTER_ALARMS);						
 							if (!km.isKeyguardLocked()) dpm.lockNow();
-							if (notificationManager.isNotificationPolicyAccessGranted()) notificationManager.setInterruptionFilter(NotificationManager.INTERRUPTION_FILTER_ALARMS);
 						} catch (Throwable e) {
 							dpm = (DevicePolicyManager) context.getSystemService(Context.DEVICE_POLICY_SERVICE);
 						}                        
